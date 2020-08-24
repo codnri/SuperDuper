@@ -14,7 +14,7 @@ public interface FileMapper {
     File getFile(Integer fileId);
 
     @Insert("INSERT INTO Files (filename,contentType,fileSize,fileData,userid)"
-            +"VALUES(#{filename},#{contentType),#{fileSize},#{fileData},#{userId})")
+            +"VALUES(#{filename},#{contentType},#{fileSize},#{fileData},#{userId})")
     @Options(useGeneratedKeys = true,keyProperty = "noteId")
     int insertNote(File file);
 

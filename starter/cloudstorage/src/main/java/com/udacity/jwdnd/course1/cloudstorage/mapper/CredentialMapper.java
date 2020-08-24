@@ -14,13 +14,13 @@ public interface CredentialMapper {
     Credential getNote(Integer credentialId);
 
     @Insert("INSERT INTO Credentials (url,username,key,password,userid)"
-            +"VALUES(#{url},#{username),#{key},#{password},#{userid}")
+            +"VALUES(#{url},#{username},#{key},#{password},#{userId}")
     @Options(useGeneratedKeys = true,keyProperty = "credentialId")
     int insertCredential(Credential credential);
 
     @Delete("DELETE Credential WHERE credentialId = #{credentialId}")
     int deleteCredential(Integer credentialId);
 
-    @Update({"UPDATE Credentials SET url=#{url},username=#{username},key=#{key},password=#{password} WHERE credentialId = #{credentialId}"})
+    @Update({"UPDATE Credentials SET url = #{url}, username = #{username}, key = #{key}, password = #{password} WHERE credentialId = #{credentialId}"})
     int updateCredential(Credential credential);
 }
