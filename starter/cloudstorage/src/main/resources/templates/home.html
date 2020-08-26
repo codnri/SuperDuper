@@ -25,7 +25,7 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
-                        <form action="#" enctype="multipart/form-data" method="POST">
+                        <form action="#" enctype="multipart/form-data"  th:action="@{/file}" method="POST">
                             <div class="container">
                                 <div class="row" style="margin: 1em;">
                                     <div class="col-sm-2">
@@ -45,16 +45,18 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 20%" scope="col"></th>
-                                        <th style="width: 80%" scope="col">File Name</th>
+                                        <th style="width: 80%" scope="col" >File Name</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="fileItem : ${files}" >
                                     <td>
-                                        <a target="_blank" class="btn btn-success">View</a>
-                                        <a  class="btn btn-danger">Delete</a>
+                                        <a target="_blank" class="btn btn-success" th:href="@{|/download/${fileItem.fileId}|}">View</a>
+                                        <a  class="btn btn-danger" id="deleteFileButton"
+                                            th:data-fileId="${fileItem.fileId}"
+                                            onclick="javascript:if(confirm('Are you sure?'))deleteFile(this);">Delete</a>
                                     </td>
-                                    <th scope="row">ExampleFile.txt</th>
+                                    <th scope="row" th:text="${fileItem.fileName}">ExampleFile.txt</th>
                                 </tr>
                                 </tbody>
                             </table>
@@ -68,25 +70,26 @@
                         <div class="table-responsive">
                             <table class="table table-striped" id="userTable">
                                 <thead>
-                                    <tr>
+                                    <tr >
                                         <th style="width: 20%" scope="col"></th>
                                         <th style="width: 20%" scope="col">Title</th>
                                         <th style="width: 60%" scope="col">Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="noteRow : ${notes}">
                                         <td>
-                                            <button type="button" class="btn btn-success">Edit</button>
-                                            <a class="btn btn-danger">Delete</a>
+                                            <button type="button" th:onclick="showNoteModal([[${noteRow.noteId}]],[[${noteRow.noteTitle}]],[[${noteRow.noteDescription}]])" class="btn btn-success">Edit</button>
+                                            <a id="deleteNoteButton" class="btn btn-danger" th:data-noteId="${noteRow.noteId}"
+                                               onclick="javascript:if(confirm('Are you sure?'))deleteNote(this);">Delete</a>
                                         </td>
-                                        <th scope="row">Example Note Title</th>
-                                        <td>Example Note Description </td>
+                                        <th scope="row" th:text="${noteRow.noteTitle}">Example Note Title</th>
+                                        <td th:text="${noteRow.noteDescription}">Example Note Description </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
+<!--Note modal-->
                         <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -97,7 +100,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
+                                        <form action="#" th:action="@{/note}" th:object="${note}" method="POST">
                                             <input type="hidden" name="noteId" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
@@ -134,14 +137,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="cred : ${credentials}">
                                     <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
-                                        <a class="btn btn-danger">Delete</a>
+                                        <button type="button" class="btn btn-success"
+                                            th:onclick="showCredentialModal([[${cred.credentialId}]],[[${cred.url}]],[[${cred.username}]],[[${cred.password}]])">Edit</button>
+                                        <a class="btn btn-danger" id="deleteCredentialButton"
+                                           th:data-credentialId="${cred.credentialId}"
+                                           onclick="javascript:if(confirm('Are you sure?'))deleteCredential(this);">Delete</a>
                                     </td>
-                                    <th scope="row">Example Credential URL</th>
-                                    <td>Example Credential Username</td>
-                                    <td>Example Credential Password</td>
+                                    <th scope="row" th:text="${cred.url}">Example Credential URL</th>
+                                    <td th:text="${cred.username}">Example Credential Username</td>
+                                    <td th:text="${cred.password}">Example Credential Password</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -157,7 +163,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
+                                        <form action="#" method="POST" th:object="${credential}" th:action="@{/credential}">
                                             <input type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">URL</label>
@@ -207,6 +213,32 @@
                 $('#credential-username').val(username ? username : '');
                 $('#credential-password').val(password ? password : '');
                 $('#credentialModal').modal('show');
+            }
+            // Delete Note
+             function deleteNote(note) {
+                var request = new XMLHttpRequest();
+                console.log(note.getAttribute('data-noteId'));
+                request.open('POST', '/note/' + note.getAttribute('data-noteId')+'/delete', true)
+                note.parentNode.parentNode.remove();
+                request.send();
+            }
+            //Delete Credential
+            function deleteCredential(cred){
+                console.log("deleteCredential");
+                var request = new XMLHttpRequest();
+                console.log(cred.getAttribute('data-credentialId'));
+                request.open('POST', '/credential/' + cred.getAttribute('data-credentialId')+'/delete', true)
+                cred.parentNode.parentNode.remove();
+                request.send();
+            }
+            //Delete Credential
+            function deleteFile(file){
+                console.log("deleteFile");
+                var request = new XMLHttpRequest();
+                console.log(file.getAttribute('data-fileId'));
+                request.open('POST', '/file/' + file.getAttribute('data-fileId')+'/delete', true)
+                file.parentNode.parentNode.remove();
+                request.send();
             }
         </script>
     </body>

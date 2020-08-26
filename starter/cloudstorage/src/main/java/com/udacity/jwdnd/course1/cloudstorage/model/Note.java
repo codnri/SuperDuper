@@ -44,6 +44,7 @@ public class Note {
         this.userId = userId;
     }
 
+    public Note(){}
     public Note(Integer noteId, String noteTitle, String noteDescription, Integer userId) {
         this.noteId = noteId;
         this.noteTitle = noteTitle;

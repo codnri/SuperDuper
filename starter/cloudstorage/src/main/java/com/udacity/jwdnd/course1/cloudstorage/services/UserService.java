@@ -12,6 +12,11 @@ import java.util.Base64;
 public class UserService {
     private final UserMapper userMapper;
     private final HashService hashService;
+    private User currentUser;
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
     public UserService(UserMapper userMapper, HashService hashService) {
         this.userMapper = userMapper;
@@ -32,6 +37,7 @@ public class UserService {
         random.nextBytes(salt);
         String encodedSalt = Base64.getEncoder().encodeToString(salt);
         String hashedPassword = hashService.getHashedValue(user.getPassword(), encodedSalt);
+
         return userMapper.insertUser(new User(null,user.getUsername(),encodedSalt,hashedPassword,
                                         user.getFirstName(),user.getLastName()));//String username, String salt, String password, String firstName, String lastName) {
     }

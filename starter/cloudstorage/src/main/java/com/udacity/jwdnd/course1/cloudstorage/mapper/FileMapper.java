@@ -13,10 +13,10 @@ public interface FileMapper {
     @Select("SELECT * FROM Files WHERE fileId = #{fileId}")
     File getFile(Integer fileId);
 
-    @Insert("INSERT INTO Files (filename,contentType,fileSize,fileData,userid)"
-            +"VALUES(#{filename},#{contentType},#{fileSize},#{fileData},#{userId})")
-    @Options(useGeneratedKeys = true,keyProperty = "noteId")
-    int insertNote(File file);
+    @Insert("INSERT INTO Files (fileName,contentType,fileSize,fileData,userid)"
+            +"VALUES(#{fileName},#{contentType},#{fileSize},#{fileData},#{userId})")
+    @Options(useGeneratedKeys = true, keyProperty = "fileId")
+    int insertFile(File file);
 
     @Delete("DELETE Files WHERE fileId = #{fileId}")
     int deleteFile(Integer fileId);

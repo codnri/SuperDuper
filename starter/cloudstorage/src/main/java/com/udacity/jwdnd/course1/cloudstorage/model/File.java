@@ -15,14 +15,15 @@ public class File {
     private  byte[] fileData;
     private  Integer userId;
 
-    public File(Integer fileId, String fileName, String contentType, String fileSize, byte[] fileData, Integer userId) {
-        this.fileId = fileId;
-        this.fileName = fileName;
-        this.contentType = contentType;
-        this.fileSize = fileSize;
-        this.fileData = fileData;
-        this.userId = userId;
-    }
+// This constructor caused "org.h2.jdbc.JdbcSQLDataException: Data conversion error converting" error
+//    public File(Integer fileId, String fileName, String contentType, String fileSize, byte[] fileData, Integer userId) {
+//        this.fileId = fileId;
+//        this.fileName = fileName;
+//        this.contentType = contentType;
+//        this.fileSize = fileSize;
+//        this.fileData = fileData;
+//        this.userId = userId;
+//    }
 
     public Integer getFileId() {
         return fileId;
