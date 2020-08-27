@@ -140,7 +140,7 @@
                                 <tr th:each="cred : ${credentials}">
                                     <td>
                                         <button type="button" class="btn btn-success"
-                                            th:onclick="showCredentialModal([[${cred.credentialId}]],[[${cred.url}]],[[${cred.username}]],[[${cred.password}]])">Edit</button>
+                                            th:onclick="showCredentialModal([[${cred.credentialId}]],[[${cred.url}]],[[${cred.username}]],[[${cred.decryptedPassword}]])">Edit</button>
                                         <a class="btn btn-danger" id="deleteCredentialButton"
                                            th:data-credentialId="${cred.credentialId}"
                                            onclick="javascript:if(confirm('Are you sure?'))deleteCredential(this);">Delete</a>
@@ -175,7 +175,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Password</label>
-                                                <input type="text" name= "password" class="form-control" id="credential-password" maxlength="30" required>
+                                                <input type="text" name= "decryptedPassword" class="form-control" id="credential-password" maxlength="30" required>
                                             </div>
                                             <button id="credentialSubmit" type="submit" class="d-none"></button>
                                         </form>

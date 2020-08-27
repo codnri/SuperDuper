@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
@@ -43,7 +44,8 @@ public class HomeController {
     }
 
     @GetMapping("/result")
-    public String getResult(){
+    public String getResult(@RequestParam(value="errorMessage",required=false) String errorMessage,Model model) {
+        if(errorMessage!=null)model.addAttribute("errorMessage",errorMessage);
         return "result";
     }
 
