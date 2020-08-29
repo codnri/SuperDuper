@@ -25,10 +25,10 @@ public class LoginController {
 
     //delete this constructor later
     public LoginController(UserService userService, NoteService noteService, CredentialService credentialService, FileMapper fileMapper){
-        User user = new User(null,"hoge",null,"test","John","Doe");
-        userService.createUser(user);
-        noteService.createNote(new Note(null,"mytitle","mydesc",1));
-        credentialService.createCredential(new Credential(null,"http://hogehoge.com","userX",null,"password",1));
+//        User user = new User(null,"hoge",null,"test","John","Doe");
+ //       userService.createUser(user);
+ //       noteService.createNote(new Note(null,"mytitle","mydesc",1));
+ //       credentialService.createCredential(new Credential(null,"http://hogehoge.com","userX",null,"password",1));
 
        // fileMapper.insertFile(new File(null,"fileName","text/plain","0","test".getBytes(),1));
     }

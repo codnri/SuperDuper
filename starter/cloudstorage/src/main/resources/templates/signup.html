@@ -20,7 +20,7 @@
                     You successfully signed up! Please continue to the <a th:href="@{/login}">login</a> page.
                 </div>
                 <div th:if="${signupError}" class="alert alert-danger">
-                    <span th:text="${signupError}">Example Signup Error Message</span>
+                    <span id="signupErrorMessage" th:text="${signupError}">Example Signup Error Message</span>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -42,7 +42,7 @@
                         <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Enter Password" maxlength="20" required>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="submit" id="submitButton" class="btn btn-primary">Sign Up</button>
             </form>
         </div>
     </body>

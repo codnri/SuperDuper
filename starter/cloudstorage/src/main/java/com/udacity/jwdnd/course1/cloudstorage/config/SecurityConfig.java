@@ -8,12 +8,20 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
+
+import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.*;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationService authenticationService;
+    private static final ClearSiteDataHeaderWriter.Directive[] SOURCE =
+            {CACHE, COOKIES, STORAGE, EXECUTION_CONTEXTS};
+
     public SecurityConfig(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
@@ -34,7 +42,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin()
                 .defaultSuccessUrl("/home", true);
+
         http.csrf().disable();
+
+        http
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .addLogoutHandler(new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(SOURCE)))
+                );
+
     }
 
 
