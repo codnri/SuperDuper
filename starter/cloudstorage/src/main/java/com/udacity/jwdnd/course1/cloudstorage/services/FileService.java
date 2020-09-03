@@ -30,7 +30,7 @@ public class FileService {
             File file = new File();
             file.setFileName(multipartFile.getOriginalFilename());
             file.setContentType(multipartFile.getContentType());
-            file.setFileSize(multipartFile.getSize()+"");
+            file.setFileSize(Long.toString(multipartFile.getSize()));
             file.setFileData(multipartFile.getBytes());
             file.setUserId(userId);
             return fileMapper.insertFile(file);
